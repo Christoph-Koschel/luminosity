@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Style of="@static/R.core.LinearLayout" xmlns="M:\langs\web\luminosity\schema\Style.xsd">
+    <Costume key="display" value="flex"/>
+</Style>

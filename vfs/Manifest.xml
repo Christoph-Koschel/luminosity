@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Manifest xmnls="M:\langs\web\luminosity\schema\Manifest.xsd">
+    <StyleGroup>
+        <File path="@static/R.style.core.LinearLayout"/>
+        <File path="@static/R.style.core.AbsoluteLayout"/>
+        <File path="@static/R.style.core.RelativeLayout"/>
+    </StyleGroup>
+</Manifest>

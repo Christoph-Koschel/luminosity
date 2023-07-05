@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<LinearLayout
+        width="screen"
+        height="screen"
+        direction="bottom"
+        xmlns="M:\langs\web\luminosity\schema\Core.xsd">
+    <LinearLayout
+            width="match_parent"
+            align="center"
+            direction="right"
+            padding="0.2rem">
+        <TextView
+                size="2.5rem"
+                text="Menu"
+                weight="600"
+                family="Arial"/>
+    </LinearLayout>
+</LinearLayout>

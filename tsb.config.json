@@ -1,0 +1,61 @@
+{
+    "modules": {
+        "luminosity": [
+            "src/luminosity/builder/events.ts",
+            "src/luminosity/builder/styler.ts",
+            "src/luminosity/builder/xaml.ts",
+            "src/luminosity/elements/core.ts",
+            "src/luminosity/elements/emit.ts",
+            "src/luminosity/elements/layout.ts",
+            "src/luminosity/elements/text.ts",
+            "src/luminosity/loader.ts",
+            "src/luminosity/vfs.ts"
+        ],
+        "vfs": [
+            "src/vfs/content.ts",
+            "src/vfs/vfs.ts"
+        ]
+    },
+    "loaders": {
+        "luminosity": [
+            "./src/luminosity/elements/core.ts",
+            "./src/luminosity/loader.ts"
+        ],
+        "vfs": []
+    },
+    "dependencies": {
+        "luminosity": [
+            "vfs"
+        ]
+    },
+    "queues": {
+        "all": [
+            {
+                "kind": 0,
+                "information": {
+                    "moduleName": "luminosity"
+                }
+            },
+            {
+                "kind": 0,
+                "information": {
+                    "moduleName": "vfs"
+                }
+            }
+        ]
+    },
+    "plugins": {
+        "luminosity": [
+            {
+                "name": "tsb.minifier",
+                "parameters": []
+            }
+        ],
+        "vfs": [
+            {
+                "name": "tsb.minifier",
+                "parameters": []
+            }
+        ]
+    }
+}

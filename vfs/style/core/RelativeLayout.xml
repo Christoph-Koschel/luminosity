@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Style of="@static/R.core.RelativeLayout" xmlns="M:\langs\web\luminosity\schema\Style.xsd">
+    <Width>match_parent</Width>
+    <Costume key="display" value="block"/>
+</Style>

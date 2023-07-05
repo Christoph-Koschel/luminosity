@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<schema
+        attributeFormDefault="unqualified"
+        elementFormDefault="qualified"
+        targetNamespace="M:\langs\web\luminosity\schema\Core.xsd"
+        xmlns="http://www.w3.org/2001/XMLSchema">
+    <attributeGroup name="GlobalAttrs">
+        <attribute name="padding" type="string" default=""/>
+        <attribute name="margin" type="string" default=""/>
+        <attribute name="ref" type="string" default=""/>
+    </attributeGroup>
+
+    <attributeGroup name="LayoutAttrs">
+        <attribute name="width" type="string" default=""/>
+        <attribute name="height" type="string" default=""/>
+        <attribute name="foreground" type="string" default=""/>
+        <attribute name="background" type="string" default=""/>
+    </attributeGroup>
+
+    <element name="LinearLayout">
+        <complexType>
+            <attributeGroup ref="GlobalAttrs"/>
+            <attributeGroup ref="LayoutAttrs"/>
+            <attribute name="direction">
+                <simpleType>
+                    <restriction>
+                        <enumeration value="top"/>
+                        <enumeration value="left"/>
+                        <enumeration value="right"/>
+                        <enumeration value="bottom"/>
+                    </restriction>
+                </simpleType>
+            </attribute>
+            <attribute name="align" default="left">
+                <simpleType>
+                    <restriction>
+                        <enumeration value="left"/>
+                        <enumeration value="center"/>
+                        <enumeration value="right"/>
+                        <enumeration value="fill"/>
+                    </restriction>
+                </simpleType>
+            </attribute>
+            <attribute name="valign" default="top">
+                <simpleType>
+                    <restriction>
+                        <enumeration value="top"/>
+                        <enumeration value="center"/>
+                        <enumeration value="bottom"/>
+                    </restriction>
+                </simpleType>
+            </attribute>
+            <group ref="BaseElements"/>
+        </complexType>
+    </element>
+    <element name="AbsoluteLayout">
+        <complexType>
+            <attributeGroup ref="GlobalAttrs"/>
+            <attributeGroup ref="LayoutAttrs"/>
+            <group ref="BaseElements"/>
+        </complexType>
+    </element>
+    <element name="RelativeLayout">
+        <complexType>
+            <attributeGroup ref="GlobalAttrs"/>
+            <attributeGroup ref="LayoutAttrs"/>
+            <group ref="BaseElements"/>
+        </complexType>
+    </element>
+    <element name="TextView">
+        <complexType>
+            <attributeGroup ref="GlobalAttrs"/>
+            <attribute name="text" type="string"/>
+            <attribute name="font" type="string" default=""/>
+            <attribute name="family" type="string" default=""/>
+            <attribute name="size" type="string" default=""/>
+            <attribute name="weight" type="int" default=""/>
+        </complexType>
+    </element>
+    <element name="EditText">
+        <complexType>
+            <attributeGroup ref="GlobalAttrs"/>
+            <attribute name="type" type="string"/>
+        </complexType>
+    </element>
+    <element name="Button">
+        <complexType>
+            <attributeGroup ref="GlobalAttrs"/>
+            <attribute name="text" type="string"/>
+        </complexType>
+    </element>
+
+    <group name="BaseElements">
+        <sequence>
+            <element name="LinearLayout">
+                <complexType>
+                    <attributeGroup ref="GlobalAttrs"/>
+                    <attributeGroup ref="LayoutAttrs"/>
+                    <attribute name="direction">
+                        <simpleType>
+                            <restriction>
+                                <enumeration value="top"/>
+                                <enumeration value="left"/>
+                                <enumeration value="right"/>
+                                <enumeration value="bottom"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                    <attribute name="align" default="left">
+                        <simpleType>
+                            <restriction>
+                                <enumeration value="left"/>
+                                <enumeration value="center"/>
+                                <enumeration value="right"/>
+                                <enumeration value="fill"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                    <attribute name="valign" default="top">
+                        <simpleType>
+                            <restriction>
+                                <enumeration value="top"/>
+                                <enumeration value="center"/>
+                                <enumeration value="bottom"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                    <group ref="BaseElements"/>
+                </complexType>
+            </element>
+            <element name="AbsoluteLayout">
+                <complexType>
+                    <attributeGroup ref="GlobalAttrs"/>
+                    <attributeGroup ref="LayoutAttrs"/>
+                    <group ref="BaseElements"/>
+                </complexType>
+            </element>
+            <element name="RelativeLayout">
+                <complexType>
+                    <attributeGroup ref="GlobalAttrs"/>
+                    <attributeGroup ref="LayoutAttrs"/>
+                    <group ref="BaseElements"/>
+                </complexType>
+            </element>
+            <element name="TextView">
+                <complexType>
+                    <group ref="BaseElements"/>
+                    <attributeGroup ref="GlobalAttrs"/>
+                    <attribute name="text" type="string"/>
+                    <attribute name="font" type="string" default=""/>
+                    <attribute name="family" type="string" default=""/>
+                    <attribute name="size" type="string" default=""/>
+                    <attribute name="weight" type="string" default=""/>
+                </complexType>
+            </element>
+            <element name="EditText">
+                <complexType>
+                    <group ref="BaseElements"/>
+                    <attributeGroup ref="GlobalAttrs"/>
+                    <attribute name="type" type="string"/>
+                </complexType>
+            </element>
+            <element name="Button">
+                <complexType>
+                    <group ref="BaseElements"/>
+                    <attributeGroup ref="GlobalAttrs"/>
+                    <attribute name="text" type="string"/>
+                </complexType>
+            </element>
+        </sequence>
+    </group>
+</schema>

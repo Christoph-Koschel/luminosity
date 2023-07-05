@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<schema
+        attributeFormDefault="unqualified"
+        elementFormDefault="qualified"
+        targetNamespace="M:\langs\web\luminosity\schema\Style.xsd"
+        xmlns="http://www.w3.org/2001/XMLSchema">
+    <element name="Style">
+        <complexType>
+            <sequence>
+                <element name="Costume" minOccurs="0" maxOccurs="unbounded">
+                    <complexType>
+                        <attribute name="key" type="string"/>
+                        <attribute name="value" type="string"/>
+                    </complexType>
+                </element>
+                <element name="Width" type="string" minOccurs="0" maxOccurs="1"/>
+                <element name="Height" type="string" minOccurs="0" maxOccurs="1"/>
+                <element name="Padding" type="string" minOccurs="0" maxOccurs="1"/>
+                <element name="Margin" type="string" minOccurs="0" maxOccurs="1"/>
+                <element name="Foreground" type="string" minOccurs="0" maxOccurs="1"/>
+                <element name="Background" type="string" minOccurs="0" maxOccurs="1"/>
+            </sequence>
+            <attribute name="of" type="string"/>
+        </complexType>
+    </element>
+</schema>

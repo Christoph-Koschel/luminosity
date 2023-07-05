@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<AbsoluteLayout width="screen" height="screen" xmlns="M:\langs\web\luminosity\schema\Core.xsd">
+    <Button text="Menu" ref="back"/>
+    <LinearLayout width="match_parent"
+                  height="match_parent"
+                  direction="bottom"
+                  align="center"
+                  valign="center"
+                  background="#5140ff">
+        <TextView ref="output" text="NULL"/>
+        <LinearLayout direction="right">
+            <Button text="1" ref="b1"/>
+            <Button text="2" ref="b2"/>
+            <Button text="3" ref="b3"/>
+            <Button text="+" ref="b+"/>
+        </LinearLayout>
+        <LinearLayout direction="right">
+            <Button text="4" ref="b4"/>
+            <Button text="5" ref="b5"/>
+            <Button text="6" ref="b6"/>
+            <Button text="-" ref="b-"/>
+        </LinearLayout>
+        <LinearLayout direction="right">
+            <Button text="7" ref="b7"/>
+            <Button text="8" ref="b8"/>
+            <Button text="9" ref="b9"/>
+            <Button text="*" ref="b*"/>
+        </LinearLayout>
+        <LinearLayout direction="right">
+            <Button text="C" ref="bC"/>
+            <Button text="0" ref="b0"/>
+            <Button text="=" ref="b="/>
+            <Button text="/" ref="b/"/>
+        </LinearLayout>
+    </LinearLayout>
+</AbsoluteLayout>

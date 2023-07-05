@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<schema
+        attributeFormDefault="unqualified"
+        elementFormDefault="qualified"
+        targetNamespace="M:\langs\web\luminosity\schema\Manifest.xsd"
+        xmlns="http://www.w3.org/2001/XMLSchema">
+    <element name="Manifest">
+        <complexType>
+            <sequence>
+                <element name="StyleGroup" minOccurs="0">
+                    <complexType>
+                        <sequence>
+                            <element name="File" minOccurs="0" maxOccurs="unbounded">
+                                <complexType>
+                                    <attribute name="path" type="string"/>
+                                </complexType>
+                            </element>
+                        </sequence>
+                    </complexType>
+                </element>
+            </sequence>
+        </complexType>
+    </element>
+</schema>
