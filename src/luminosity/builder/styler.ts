@@ -1,6 +1,7 @@
 export class XAMLStyle {
     public sheet: string;
     public of: string;
+    public when: string;
 
     public width: StyleBoxSizeValue;
     public height: StyleBoxSizeValue;
@@ -21,6 +22,7 @@ export class XAMLStyle {
     public clone(): XAMLStyle {
         const style: XAMLStyle = new XAMLStyle(this.sheet);
         style.of = this.of;
+        style.when = this.when;
 
         style.width = this.width;
         style.height = this.height;

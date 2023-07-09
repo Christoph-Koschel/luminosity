@@ -106,7 +106,6 @@ export abstract class GridComponent extends XAMLComponent {
     }
 
     private emitResizeEvents(): void {
-        console.log("Emit", this.style);
         if (this.style.width == "match_parent" || this.style.width == "screen") {
             if (!WIDTH_EVENT.includes(this)) {
                 WIDTH_EVENT.push(this);
@@ -122,7 +121,7 @@ export abstract class GridComponent extends XAMLComponent {
 
     public setPadding(padding: StyleSizeValue[] | null): void {
         this.style.padding = padding;
-        apply_style(this.getElement(this), this.style);
+        apply_style(this.getElement(this), [...this.styleList, this.style]);
     }
 
     public getPadding(): StyleSizeValue[] | null {
@@ -131,7 +130,7 @@ export abstract class GridComponent extends XAMLComponent {
 
     public setMargin(padding: StyleSizeValue[] | null): void {
         this.style.padding = padding;
-        apply_style(this.getElement(this), this.style);
+        apply_style(this.getElement(this), [...this.styleList, this.style]);
     }
 
     public getMargin(): StyleSizeValue[] | null {
@@ -151,7 +150,7 @@ export class LinearLayout extends GridComponent {
         this.row = this.direction(this.attrs.get("direction"));
         this.align(this.attrs.getOrDefault("align", "left"));
         this.valign(this.attrs.getOrDefault("valign", "top"));
-        apply_style(this.getElement(this), this.style);
+        apply_style(this.getElement(), [...this.styleList, this.style]);
     }
 
     private align(align: string): void {
@@ -246,17 +245,17 @@ export class LinearLayout extends GridComponent {
 
     public setDirection(direction: "top" | "left" | "right" | "bottom"): void {
         this.row = this.direction(direction);
-        apply_style(this.getElement(this), this.style);
+        apply_style(this.getElement(), [...this.styleList, this.style]);
     }
 
     public setAlign(align: "left" | "center" | "right" | "fill"): void {
         this.align(align);
-        apply_style(this.getElement(this), this.style);
+        apply_style(this.getElement(), [...this.styleList, this.style]);
     }
 
     public setVAlign(align: "top" | "center" | "bottom"): void {
         this.valign(align);
-        apply_style(this.getElement(this), this.style);
+        apply_style(this.getElement(), [...this.styleList, this.style]);
     }
 
     public getDirection(): "top" | "left" | "right" | "bottom" {
@@ -276,14 +275,6 @@ export class LinearLayout extends GridComponent {
         }
         return "top";
     }
-
-    clone<T extends XAMLNode>(attrs: AttrCollection, element: HTMLElement | XAMLNode, children: XAMLNode[]): T {
-        const n: T = super.clone(attrs, element, children);
-
-        console.log(n);
-
-        return n;
-    }
 }
 
 export class RelativeLayout extends GridComponent {
@@ -292,7 +283,7 @@ export class RelativeLayout extends GridComponent {
 
     render(): void {
         super.render();
-        apply_style(this.getElement(this), this.style);
+        apply_style(this.getElement(), [...this.styleList, this.style]);
     }
 }
 
@@ -302,6 +293,6 @@ export class AbsoluteLayout extends GridComponent {
 
     render(): void {
         super.render();
-        apply_style(this.getElement(this), this.style);
+        apply_style(this.getElement(), [...this.styleList, this.style]);
     }
 }

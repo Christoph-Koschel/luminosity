@@ -14,9 +14,9 @@ class Calculator extends XAMLView {
         this.output = this.getElementByRef("output");
         this.output.setText("");
 
-        (<Button>this.getElementByRef("back")).addOnClickListener(ev => {
-            XAML.displayView(new Index());
-        });
+        // (<Button>this.getElementByRef("back")).addOnClickListener(ev => {
+        //     XAML.displayView(new Index());
+        // });
 
         for (let i: number = 0; i <= 9; i++) {
             const btn: Button = this.getElementByRef("b" + i);

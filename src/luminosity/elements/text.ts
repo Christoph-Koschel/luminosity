@@ -10,7 +10,10 @@ export class TextView extends XAMLComponent {
     private text: string;
 
     render(): void {
+        this.style.costume["height"] = "16px";
+
         if (this.attrs.has("size")) {
+            this.style.costume["height"] = this.attrs.get("size");
             this.style.costume["font-size"] = this.attrs.get("size");
         }
         if (this.attrs.has("weight")) {
@@ -19,7 +22,10 @@ export class TextView extends XAMLComponent {
         if (this.attrs.has("family")) {
             this.style.costume["font-family"] = this.attrs.get("family");
         }
-        apply_style(this.getElement(), this.style);
+        if (this.attrs.has("foreground")) {
+            this.style.costume["color"] = this.attrs.get("foreground");
+        }
+        apply_style(this.getElement(), [...this.styleList, this.style]);
         this.getElement().innerHTML = this.text = this.attrs.getOrDefault("text");
     }
 
@@ -41,6 +47,7 @@ export class Button extends XAMLComponent implements XAMLClickListeners {
     sheet: string = R.core.Button;
 
     render(): void {
+        apply_style(this.getElement(), [...this.styleList, this.style]);
         this.getElement().innerHTML = this.attrs.get("text");
     }
 
@@ -62,6 +69,7 @@ export class EditText extends XAMLComponent {
     sheet: string = R.core.EditText;
 
     render(): void {
+        apply_style(this.getElement(), [...this.styleList, this.style]);
         if (this.attrs.has("type")) {
             (<HTMLInputElement>this.getElement()).type = this.attrs.get("type");
         } else {

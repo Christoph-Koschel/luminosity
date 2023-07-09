@@ -8,6 +8,7 @@
         <attribute name="padding" type="string" default=""/>
         <attribute name="margin" type="string" default=""/>
         <attribute name="ref" type="string" default=""/>
+        <attribute name="style" type="string" default=""/>
     </attributeGroup>
 
     <attributeGroup name="LayoutAttrs">
@@ -75,6 +76,7 @@
             <attribute name="family" type="string" default=""/>
             <attribute name="size" type="string" default=""/>
             <attribute name="weight" type="int" default=""/>
+            <attribute name="foreground" type="string" default=""/>
         </complexType>
     </element>
     <element name="EditText">
@@ -151,6 +153,7 @@
                     <attribute name="family" type="string" default=""/>
                     <attribute name="size" type="string" default=""/>
                     <attribute name="weight" type="string" default=""/>
+                    <attribute name="foreground" type="string" default=""/>
                 </complexType>
             </element>
             <element name="EditText">

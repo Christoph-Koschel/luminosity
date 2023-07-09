@@ -1,26 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <schema
-        attributeFormDefault="unqualified"
+        attributeFormDefault="qualified"
         elementFormDefault="qualified"
         targetNamespace="M:\langs\web\luminosity\schema\Style.xsd"
         xmlns="http://www.w3.org/2001/XMLSchema">
-    <element name="Style">
+    <group name="Properties">
+        <element name="Width" type="string" minOccurs="0" maxOccurs="1"/>
+        <element name="Height" type="string" minOccurs="0" maxOccurs="1"/>
+        <element name="Padding" type="string" minOccurs="0" maxOccurs="1"/>
+        <element name="Margin" type="string" minOccurs="0" maxOccurs="1"/>
+        <element name="Foreground" type="string" minOccurs="0" maxOccurs="1"/>
+        <element name="Background" type="string" minOccurs="0" maxOccurs="1"/>
+        <element name="Costume" minOccurs="0" maxOccurs="unbounded">
+            <complexType>
+                <attribute name="key" type="string" use="required"/>
+                <attribute name="value" type="string" use="required"/>
+            </complexType>
+        </element>
+    </group>
+    <element name="StyleGroup">
         <complexType>
             <sequence>
-                <element name="Costume" minOccurs="0" maxOccurs="unbounded">
-                    <complexType>
-                        <attribute name="key" type="string"/>
-                        <attribute name="value" type="string"/>
-                    </complexType>
-                </element>
-                <element name="Width" type="string" minOccurs="0" maxOccurs="1"/>
-                <element name="Height" type="string" minOccurs="0" maxOccurs="1"/>
-                <element name="Padding" type="string" minOccurs="0" maxOccurs="1"/>
-                <element name="Margin" type="string" minOccurs="0" maxOccurs="1"/>
-                <element name="Foreground" type="string" minOccurs="0" maxOccurs="1"/>
-                <element name="Background" type="string" minOccurs="0" maxOccurs="1"/>
+                <element ref="Style" />
             </sequence>
-            <attribute name="of" type="string"/>
+        </complexType>
+    </element>
+    <element name="Style">
+        <complexType>
+            <attribute name="of" type="string" use="required"/>
+            <group ref="Properties"/>
         </complexType>
     </element>
 </schema>

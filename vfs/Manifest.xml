@@ -4,5 +4,8 @@
         <File path="@static/R.style.core.LinearLayout"/>
         <File path="@static/R.style.core.AbsoluteLayout"/>
         <File path="@static/R.style.core.RelativeLayout"/>
+        <File path="@static/R.style.core.Button"/>
+
+        <File path="@static/R.test.style.Calculator"/>
     </StyleGroup>
 </Manifest>

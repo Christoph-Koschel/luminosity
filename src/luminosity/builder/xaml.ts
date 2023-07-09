@@ -5,6 +5,8 @@ import {StyleSizeValue, XAMLStyle} from "./styler";
 export type XMLElement = Element;
 export type XMLCollection = HTMLCollection;
 
+export type XAMLTreePath = string[];
+
 
 export abstract class XAMLNode {
     public abstract name: string;
@@ -14,7 +16,12 @@ export abstract class XAMLNode {
     private element: HTMLElement
     public children: XAMLNode[];
     public parent: XAMLNode;
-    public style: XAMLStyle;
+    public styleList: XAMLStyle[];
+    private defaultStyle: XAMLStyle;
+
+    public get style(): XAMLStyle {
+        return this.defaultStyle;
+    }
 
     public clone<T extends XAMLNode>(attrs: AttrCollection, element: HTMLElement | XAMLNode, children: XAMLNode[]): T {
         // @ts-ignore
@@ -23,17 +30,14 @@ export abstract class XAMLNode {
         c.attrs = attrs;
         c.element = element instanceof HTMLElement ? element : element.element;
         c.children = children;
-
-        for (const style of XAMLManifest.current_manifest.styles) {
-            if (style.of == c.sheet) {
-                c.style = style.clone();
-                break;
+        c.styleList = [];
+        XAMLManifest.current_manifest.styles.forEach((style) => {
+            if (style.of == c.sheet && XAML.canUseStyle(style, attrs)) {
+                c.styleList.push(style.clone());
             }
-        }
+        });
 
-        if (c.style == null) {
-            c.style = new XAMLStyle(null);
-        }
+        c.defaultStyle = new XAMLStyle(null);
 
         return c;
     }
@@ -79,7 +83,6 @@ export abstract class XAMLNode {
         const children: HTMLElement[] = [];
 
         nodes.forEach(node => children.push(node.element));
-
 
         for (let k: number = 0; k < replacer.length; k++) {
             const replace: Element = replacer.item(k);
@@ -194,7 +197,6 @@ export class XAML {
 
     public static parseXML(stream: string): XAMLNode {
         const xml: XMLDocument = this.parseXMLContent(stream);
-        console.log(xml);
 
         return this.buildElements(xml.children)[0];
     }
@@ -223,10 +225,8 @@ export class XAML {
                 }
 
                 const child: XAMLNode = this.parseXML(vfs_read(node.sheet));
-                console.log(">>>", child);
                 node = node.clone(AttrCollection.fromElement(element), child, [child]);
-                console.log(">>>", node.children);
-
+                node.render();
                 return node;
             }
         }
@@ -242,9 +242,11 @@ export class XAML {
             const element: XAMLNode = this.buildElement(child);
 
             if (child.children.length != 0) {
+                this.path.push(element.sheet);
                 const children: XAMLNode[] = this.buildElements(child.children);
                 element.append(...children);
                 element.replaceContentsWith(children);
+                this.path.pop();
             }
             items.push(element);
         }
@@ -268,14 +270,15 @@ export class XAML {
     }
 
     private static onesLoaded: boolean = false;
+    private static path: XAMLTreePath = [];
 
     public static displayView(node: XAMLView): void {
         document.body.style.margin = "0";
+        this.path = [node.sheet];
         node = <XAMLView>XAML.parseNode(node);
-        for (let i = 0; i < document.body.children.length; i++) {
+        for (let i: number = 0; i < document.body.children.length; i++) {
             document.body.children.item(i).remove();
         }
-
         document.body.appendChild(node.view);
 
         if (this.onesLoaded) {
@@ -299,16 +302,36 @@ export class XAML {
             this.forEachCollection(group.getElementsByTagName("File"), (file: XMLElement) => {
                 const attrs: AttrCollection = AttrCollection.fromElement(file);
                 const path: string = attrs.get("path");
-                const style = new XAMLStyle(path);
-                this.parseStyle(style);
-                manifest.styles.push(style);
+                manifest.styles.push(...this.parseStyle(path));
             });
         });
 
         XAMLManifest.current_manifest = manifest;
     }
 
-    public static parseStyle(style: XAMLStyle): void {
+    public static parseStyle(sheet: string): XAMLStyle[] {
+        const xml: XMLDocument = this.parseXMLContent(vfs_read(sheet));
+        if (xml.children[0].tagName == "StyleGroup") {
+            return this.parseStyleGroup(sheet, xml.children[0]);
+        } else if (xml.children[0].tagName == "Style") {
+            return [this.parseStyleInternal(sheet, xml.children[0])];
+        } else {
+            throw `SyntaxError in the Style file '${sheet}'`;
+        }
+    }
+
+    private static parseStyleGroup(sheet: string, root: XMLElement): XAMLStyle[] {
+        const styles: XAMLStyle[] = [];
+        this.forEachCollection(root.getElementsByTagName("Style"), (style: XMLElement): void => {
+            styles.push(this.parseStyleInternal(sheet, style));
+        });
+
+        return styles;
+    }
+
+    private static parseStyleInternal(sheet: string, root: XMLElement): XAMLStyle {
+        const style: XAMLStyle = new XAMLStyle(sheet);
+
         function parse_quartet(x: string | null): (StyleSizeValue | null)[] {
             if (x == null) {
                 return null;
@@ -336,13 +359,11 @@ export class XAML {
             return <T>elements[0].innerHTML;
         }
 
-        const xml: XMLDocument = this.parseXMLContent(vfs_read(style.sheet));
-        if (xml.children[0].tagName != "Style") {
-            throw `SyntaxError in the Style file '${style.sheet}'`;
-        }
-        const root: XMLElement = xml.children[0];
-        const attrs = AttrCollection.fromElement(root);
+
+        const attrs: AttrCollection = AttrCollection.fromElement(root);
+
         style.of = attrs.get("of");
+        style.when = attrs.getOrDefault("when", "true");
         style.width = read_element(root, "Width", null);
         style.height = read_element(root, "Height", null);
 
@@ -361,7 +382,25 @@ export class XAML {
             style.costume[key] = value;
         });
 
-        // TODO add styles
+        return style;
+    }
+
+    public static canUseStyle(style: XAMLStyle, attrs: AttrCollection): boolean {
+        let when: string = style.when;
+
+        when = when.replace(/\[.*]/gi, (substring): string => {
+            if (substring.startsWith("[...")) {
+                return "[" + (attrs.getOrDefault(substring.substring(4, substring.length - 1), null)?.split(",").map((value) => `"${value}"`).join(",") || "") + "]";
+            } else {
+                return attrs.getOrDefault(substring.substring(1, substring.length - 1), "null");
+            }
+        });
+
+        try {
+            return eval(when);
+        } catch {
+            return false;
+        }
     }
 
     private static forEachCollection(collection: HTMLCollection, cb: { (node: Element): void }): void {

@@ -14,5 +14,7 @@
                 text="Menu"
                 weight="600"
                 family="Arial"/>
+
     </LinearLayout>
+    <Button text="A button"/>
 </LinearLayout>
