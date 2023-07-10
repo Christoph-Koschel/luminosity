@@ -1,4 +1,4 @@
-import {XAML} from "../builder/xaml";
+import {XAML} from "../luminosity/builder/xaml";
 import {AbsoluteLayout, LinearLayout, RelativeLayout} from "./layout";
 import {Button, EditText, TextView} from "./text";
 

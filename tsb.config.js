@@ -7,14 +7,22 @@ builder.add_module("luminosity", [
     "./src/luminosity"
 ])
     .dependence("vfs")
-    .add_loader("./src/luminosity/elements/core.ts")
+    .dependence("luminosity-core")
     .add_loader("./src/luminosity/loader.ts")
+    .use(PLUGINS.UTILS.MINIFIER);
+
+builder.add_module("luminosity-core", [
+    "./src/luminosity-core"
+])
+    .dependence("vfs")
+    .dependence("luminosity")
     .use(PLUGINS.UTILS.MINIFIER);
 
 builder.add_module("vfs", [
     "./src/vfs"
 ]).use(PLUGINS.UTILS.MINIFIER);
 
+make_vfs("./stdvfs");
 make_vfs("./vfs");
 write_vfs();
 
@@ -24,8 +32,9 @@ builder.create_build_queue("up")
     .done();
 
 builder.create_build_queue("all")
-    .compile_module("luminosity")
     .compile_module("vfs")
+    .compile_module("luminosity")
+    .compile_module("luminosity-core")
     .done();
 
 exports.default = builder.build();

@@ -1,9 +1,8 @@
-import {XAMLComponent} from "../builder/xaml";
-import {R} from "../vfs";
-import {apply_style} from "./emit";
-import {XAMLClickListeners} from "../builder/events";
+import {R} from "../luminosity/vfs";
+import {XAMLClickListeners} from "../luminosity/builder/events";
+import {CoreNode} from "./base";
 
-export class TextView extends XAMLComponent {
+export class TextView extends CoreNode {
     name: string = "TextView";
     sheet: string = R.core.TextView;
 
@@ -25,7 +24,6 @@ export class TextView extends XAMLComponent {
         if (this.attrs.has("foreground")) {
             this.style.costume["color"] = this.attrs.get("foreground");
         }
-        apply_style(this.getElement(), [...this.styleList, this.style]);
         this.getElement().innerHTML = this.text = this.attrs.getOrDefault("text");
     }
 
@@ -42,12 +40,11 @@ export class TextView extends XAMLComponent {
     }
 }
 
-export class Button extends XAMLComponent implements XAMLClickListeners {
+export class Button extends CoreNode implements XAMLClickListeners {
     name: string = "Button";
     sheet: string = R.core.Button;
 
     render(): void {
-        apply_style(this.getElement(), [...this.styleList, this.style]);
         this.getElement().innerHTML = this.attrs.get("text");
     }
 
@@ -64,12 +61,11 @@ export class Button extends XAMLComponent implements XAMLClickListeners {
     }
 }
 
-export class EditText extends XAMLComponent {
+export class EditText extends CoreNode {
     name: string = "EditText";
     sheet: string = R.core.EditText;
 
     render(): void {
-        apply_style(this.getElement(), [...this.styleList, this.style]);
         if (this.attrs.has("type")) {
             (<HTMLInputElement>this.getElement()).type = this.attrs.get("type");
         } else {

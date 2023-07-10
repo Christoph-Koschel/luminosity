@@ -4,12 +4,15 @@
             "src/luminosity/builder/events.ts",
             "src/luminosity/builder/styler.ts",
             "src/luminosity/builder/xaml.ts",
-            "src/luminosity/elements/core.ts",
-            "src/luminosity/elements/emit.ts",
-            "src/luminosity/elements/layout.ts",
-            "src/luminosity/elements/text.ts",
             "src/luminosity/loader.ts",
             "src/luminosity/vfs.ts"
+        ],
+        "luminosity-core": [
+            "src/luminosity-core/base.ts",
+            "src/luminosity-core/core.ts",
+            "src/luminosity-core/emit.ts",
+            "src/luminosity-core/layout.ts",
+            "src/luminosity-core/text.ts"
         ],
         "vfs": [
             "src/vfs/content.ts",
@@ -18,14 +21,19 @@
     },
     "loaders": {
         "luminosity": [
-            "./src/luminosity/elements/core.ts",
             "./src/luminosity/loader.ts"
         ],
+        "luminosity-core": [],
         "vfs": []
     },
     "dependencies": {
         "luminosity": [
-            "vfs"
+            "vfs",
+            "luminosity-core"
+        ],
+        "luminosity-core": [
+            "vfs",
+            "luminosity"
         ]
     },
     "queues": {
@@ -39,6 +47,12 @@
             {
                 "kind": 0,
                 "information": {
+                    "moduleName": "luminosity-core"
+                }
+            },
+            {
+                "kind": 0,
+                "information": {
                     "moduleName": "vfs"
                 }
             }
@@ -46,6 +60,12 @@
     },
     "plugins": {
         "luminosity": [
+            {
+                "name": "tsb.minifier",
+                "parameters": []
+            }
+        ],
+        "luminosity-core": [
             {
                 "name": "tsb.minifier",
                 "parameters": []
