@@ -1,12 +1,17 @@
 import {AttrCollection, XAML, XAMLManifest, XAMLNode, XAMLView} from "./builder/xaml";
 import {R} from "./vfs";
 import {XAMLClickListeners} from "./builder/events";
-import {Button, TextView} from "./elements/text";
-import {load_core} from "./elements/core";
+import {Button, TextView} from "../luminosity-core/text";
+import {load_core} from "../luminosity-core/core";
+import {CORE_STYLER} from "../luminosity-core/emit";
 
 class Calculator extends XAMLView {
     name: string = "Calculator";
     sheet: string = R.test.Calculator;
+
+    public constructor() {
+        super(CORE_STYLER);
+    }
 
     private output: TextView;
 
@@ -72,6 +77,10 @@ class ListItem extends XAMLNode implements XAMLClickListeners {
     public sheet: string = R.test.comp.ListItem;
 
     private title: TextView;
+
+    public constructor() {
+        super(CORE_STYLER);
+    }
 
     render(): void {
         this.title = this.getElementByRef("title");

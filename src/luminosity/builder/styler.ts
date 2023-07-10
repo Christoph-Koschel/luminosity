@@ -42,6 +42,56 @@ export class XAMLStyle {
     }
 }
 
+export abstract class XAMLStyleEmitter {
+    protected element: HTMLElement;
+
+    public emit(element: HTMLElement, styles: XAMLStyle[]): void {
+        element.setAttribute("style", "");
+        this.element = element;
+        for (const style of styles) {
+            if (style == null) {
+                return;
+            }
+
+            if (style.foreground != null) {
+                this.emitForeground(style.foreground);
+            }
+            if (style.background != null) {
+                this.emitBackground(style.background);
+            }
+            if (style.padding != null) {
+                this.emitPadding(style.padding);
+            }
+            if (style.margin != null) {
+                this.emitMargin(style.margin);
+            }
+            if (style.width != null) {
+                this.emitWidth(style.width);
+            }
+            if (style.height != null) {
+                this.emitHeight(style.height);
+            }
+            if (style.costume != null) {
+                this.emitCostume(style.costume);
+            }
+        }
+    }
+
+    public abstract emitForeground(color: StyleColorValue): void;
+
+    public abstract emitBackground(color: StyleColorValue): void;
+
+    public abstract emitPadding(padding: StyleSizeValue[]): void;
+
+    public abstract emitMargin(margin: StyleSizeValue[]): void;
+
+    public abstract emitWidth(width: StyleBoxSizeValue): void;
+
+    public abstract emitHeight(height: StyleBoxSizeValue): void;
+
+    public abstract emitCostume(attrs: { [p: string]: string }): void;
+}
+
 export type StyleColorValue =
     `rgb(${number}, ${number}, ${number})`
     | `rgba(${number}, ${number}, ${number})`

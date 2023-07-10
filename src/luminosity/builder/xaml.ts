@@ -1,6 +1,6 @@
 import {vfs_read} from "../../vfs/vfs";
 import {R} from "../vfs";
-import {StyleSizeValue, XAMLStyle} from "./styler";
+import {StyleSizeValue, XAMLStyle, XAMLStyleEmitter} from "./styler";
 
 export type XMLElement = Element;
 export type XMLCollection = HTMLCollection;
@@ -18,6 +18,7 @@ export abstract class XAMLNode {
     public parent: XAMLNode;
     public styleList: XAMLStyle[];
     private defaultStyle: XAMLStyle;
+    private styler: XAMLStyleEmitter;
 
     public get style(): XAMLStyle {
         return this.defaultStyle;
@@ -50,7 +51,16 @@ export abstract class XAMLNode {
         return null;
     }
 
-    public constructor() {
+    public constructor(styler: XAMLStyleEmitter) {
+        this.styler = styler;
+    }
+
+    public emitStyler(): void {
+        if (this.styler == null) {
+            return;
+        }
+
+        this.styler.emit(this.element, [...this.styleList, this.style]);
     }
 
     public abstract render(): void;
@@ -142,8 +152,8 @@ export abstract class XAMLNode {
 }
 
 export abstract class XAMLComponent extends XAMLNode {
-    public constructor() {
-        super()
+    public constructor(styler: XAMLStyleEmitter) {
+        super(styler);
     }
 
     protected getElement(node: XAMLNode = this): HTMLElement | null {
@@ -207,6 +217,7 @@ export class XAML {
 
         node = node.clone(AttrCollection.empty(), creation, [creation]);
         node.render();
+        node.emitStyler();
 
         return node;
     }
@@ -221,12 +232,14 @@ export class XAML {
                     AttrCollection.mergeAttributes(creation, collection);
                     node = node.clone(collection, creation, []);
                     node.render();
+                    node.emitStyler();
                     return node;
                 }
 
                 const child: XAMLNode = this.parseXML(vfs_read(node.sheet));
                 node = node.clone(AttrCollection.fromElement(element), child, [child]);
                 node.render();
+                node.emitStyler();
                 return node;
             }
         }
@@ -261,10 +274,13 @@ export class XAML {
             AttrCollection.mergeAttributes(creation, collection);
             node = node.clone(collection, creation, []);
             node.render();
+            node.emitStyler();
+
         } else {
             const creation: XAMLNode = this.parseXML(vfs_read(node.sheet));
             node = node.clone(collection, creation, [creation]);
             node.render();
+            node.emitStyler();
         }
         return node;
     }
