@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Style xmlns="M:\langs\web\luminosity\schema\Style.xsd" of="@static/R.core.Image">
+    <Width>100%</Width>
+</Style>

@@ -85,3 +85,42 @@ export class EditText extends CoreNode {
         return (<HTMLInputElement>this.getElement()).value;
     }
 }
+
+export class Link extends CoreNode implements XAMLClickListeners {
+    name: string = "Link"
+    sheet: string = R.core.Link;
+
+    render(): void {
+        const anchor: HTMLAnchorElement = <HTMLAnchorElement>this.getElement();
+        anchor.href = this.attrs.get("href");
+        anchor.target = this.attrs.getOrDefault("target", "");
+    }
+
+    public setHREF(href: string): void {
+        (<HTMLAnchorElement>this.getElement()).href = href;
+    }
+
+    public getHREF(): string {
+        return (<HTMLAnchorElement>this.getElement()).href;
+    }
+
+    public setTarget(target: string | "_blank" | "_self" | "_parent" | "_top"): void {
+        (<HTMLAnchorElement>this.getElement()).target = target;
+    }
+
+    public getTarget(): string | "_blank" | "_self" | "_parent" | "_top" {
+        return (<HTMLAnchorElement>this.getElement()).target;
+    }
+
+    addOnClickListener(cb: { (e: MouseEvent): void }): void {
+        this.getElement().addEventListener("click", cb);
+    }
+
+    addOnDBClickListener(cb: { (e: MouseEvent): void }): void {
+        this.getElement().addEventListener("dblclick", cb);
+    }
+
+    addOnRClickListener(cb: { (e: MouseEvent): void }): void {
+        this.getElement().addEventListener("contextmenu", cb);
+    }
+}

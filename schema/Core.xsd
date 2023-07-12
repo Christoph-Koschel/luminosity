@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <schema
-        attributeFormDefault="unqualified"
+        attributeFormDefault="qualified"
         elementFormDefault="qualified"
         targetNamespace="M:\langs\web\luminosity\schema\Core.xsd"
         xmlns="http://www.w3.org/2001/XMLSchema">
@@ -18,11 +18,34 @@
         <attribute name="background" type="string" default=""/>
     </attributeGroup>
 
+    <element name="Link">
+        <complexType>
+            <attributeGroup ref="GlobalAttrs"/>
+            <attribute name="href" type="string" use="required"/>
+            <attribute name="target" type="string">
+                <simpleType>
+                    <restriction>
+                        <enumeration value="_blank"/>
+                        <enumeration value="_self"/>
+                        <enumeration value="_parent"/>
+                        <enumeration value="_top"/>
+                    </restriction>
+                </simpleType>
+            </attribute>
+        </complexType>
+    </element>
+    <element name="Image">
+        <complexType>
+            <attributeGroup ref="GlobalAttrs"/>
+            <attribute name="href" type="string" use="required"/>
+            <attribute name="alt" type="string"/>
+        </complexType>
+    </element>
     <element name="LinearLayout">
         <complexType>
             <attributeGroup ref="GlobalAttrs"/>
             <attributeGroup ref="LayoutAttrs"/>
-            <attribute name="direction">
+            <attribute name="direction" use="required">
                 <simpleType>
                     <restriction>
                         <enumeration value="top"/>
@@ -94,6 +117,29 @@
 
     <group name="BaseElements">
         <sequence>
+            <element name="Link">
+                <complexType>
+                    <attributeGroup ref="GlobalAttrs"/>
+                    <attribute name="href" type="string" use="required"/>
+                    <attribute name="target" type="string">
+                        <simpleType>
+                            <restriction>
+                                <enumeration value="_blank"/>
+                                <enumeration value="_self"/>
+                                <enumeration value="_parent"/>
+                                <enumeration value="_top"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                </complexType>
+            </element>
+            <element name="Image">
+                <complexType>
+                    <attributeGroup ref="GlobalAttrs"/>
+                    <attribute name="href" type="string" use="required"/>
+                    <attribute name="alt" type="string"/>
+                </complexType>
+            </element>
             <element name="LinearLayout">
                 <complexType>
                     <attributeGroup ref="GlobalAttrs"/>
