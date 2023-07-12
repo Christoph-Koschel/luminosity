@@ -18,7 +18,7 @@ export abstract class XAMLNode {
     public parent: XAMLNode;
     public styleList: XAMLStyle[];
     private defaultStyle: XAMLStyle;
-    private styler: XAMLStyleEmitter;
+    private readonly styler: XAMLStyleEmitter;
 
     public get style(): XAMLStyle {
         return this.defaultStyle;
@@ -309,18 +309,29 @@ export class XAML {
 
     public static parseManifest(manifest: XAMLManifest): void {
         const xml: XMLDocument = this.parseXMLContent(vfs_read(manifest.sheet));
-        if (xml.children[0].tagName != "Manifest") {
-            throw `SyntaxError in the Manifest file '${manifest.sheet}'`;
-        }
 
-        const root: XMLElement = xml.children[0];
-        this.forEachCollection(root.getElementsByTagName("StyleGroup"), (group: XMLElement) => {
-            this.forEachCollection(group.getElementsByTagName("File"), (file: XMLElement) => {
-                const attrs: AttrCollection = AttrCollection.fromElement(file);
-                const path: string = attrs.get("path");
-                manifest.styles.push(...this.parseStyle(path));
+        const innerLoop = (xml: XMLDocument, sheet: string): void => {
+            if (xml.children[0].tagName != "Manifest") {
+                throw `SyntaxError in the Manifest file '${sheet}'`;
+            }
+
+            const root: XMLElement = xml.children[0];
+            this.forEachCollection(root.getElementsByTagName("StyleGroup"), (group: XMLElement) => {
+                this.forEachCollection(group.getElementsByTagName("File"), (file: XMLElement) => {
+                    const attrs: AttrCollection = AttrCollection.fromElement(file);
+                    const path: string = attrs.get("path");
+                    manifest.styles.push(...this.parseStyle(path));
+                });
             });
-        });
+
+            this.forEachCollection(root.getElementsByTagName("Include"), (include: XMLElement) => {
+                const attrs: AttrCollection = AttrCollection.fromElement(include);
+                const path: string = attrs.get("path");
+                const xml: XMLDocument = this.parseXMLContent(vfs_read(path));
+                innerLoop(xml, path);
+            });
+        }
+        innerLoop(xml, manifest.sheet);
 
         XAMLManifest.current_manifest = manifest;
     }
@@ -378,6 +389,9 @@ export class XAML {
 
         const attrs: AttrCollection = AttrCollection.fromElement(root);
 
+        console.log(style.sheet);
+        console.log(attrs);
+        console.log(root);
         style.of = attrs.get("of");
         style.when = attrs.getOrDefault("when", "true");
         style.width = read_element(root, "Width", null);
@@ -426,7 +440,7 @@ export class XAML {
     }
 
     private static parseXMLContent(content: string): XMLDocument {
-        content = content.replace(/xmlns=".*"/gi, "");
+        content = content.replace(/xmlns="[^"]*"/gi, "");
         return this.parser.parseFromString(content, "text/xml");
     }
 

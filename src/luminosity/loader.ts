@@ -51,7 +51,6 @@ class Calculator extends XAMLView {
             }
         });
     }
-
 }
 
 class Index extends XAMLView {

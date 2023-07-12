@@ -12,6 +12,7 @@
             "src/luminosity-core/core.ts",
             "src/luminosity-core/emit.ts",
             "src/luminosity-core/layout.ts",
+            "src/luminosity-core/media.ts",
             "src/luminosity-core/text.ts"
         ],
         "vfs": [
