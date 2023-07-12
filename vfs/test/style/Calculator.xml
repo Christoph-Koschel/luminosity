@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<StyleGroup xmlns="M:\langs\web\luminosity\schema\Style.xsd">
+<StyleGroup xmlns="M:\langs\web\luminosity\schema\StyleGroup.xsd">
     <Style of="@static/R.core.Button" when="[...style].includes('MainButton')">
         <Width>50px</Width>
         <Height>50px</Height>
-    </Style>
-    <Style of="@static/R.core.TextView" when="[...style].includes('OutputText')">
-
     </Style>
 </StyleGroup>

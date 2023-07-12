@@ -2,7 +2,7 @@
 <schema
         attributeFormDefault="qualified"
         elementFormDefault="qualified"
-        targetNamespace="M:\langs\web\luminosity\schema\Style.xsd"
+        targetNamespace="M:\langs\web\luminosity\schema\StyleGroup.xsd"
         xmlns="http://www.w3.org/2001/XMLSchema">
     <group name="Properties">
         <element name="Width" type="string" minOccurs="0" maxOccurs="1"/>
@@ -18,11 +18,17 @@
             </complexType>
         </element>
     </group>
-    <element name="Style">
+    <element name="StyleGroup">
         <complexType>
-            <attribute name="of" type="string" use="required"/>
-            <attribute name="when" type="string"/>
-            <group ref="Properties"/>
+            <sequence>
+                <element name="Style" maxOccurs="unbounded" minOccurs="0">
+                    <complexType>
+                        <attribute name="of" type="string" use="required"/>
+                        <attribute name="when" type="string"/>
+                        <group ref="Properties"/>
+                    </complexType>
+                </element>
+            </sequence>
         </complexType>
     </element>
 </schema>
