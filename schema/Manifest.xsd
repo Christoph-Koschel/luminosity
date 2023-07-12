@@ -18,6 +18,11 @@
                         </sequence>
                     </complexType>
                 </element>
+                <element name="Include" minOccurs="0">
+                    <complexType>
+                        <attribute name="path" type="string" use="required"/>
+                    </complexType>
+                </element>
             </sequence>
         </complexType>
     </element>

@@ -1,11 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<Manifest xmnls="M:\langs\web\luminosity\schema\Manifest.xsd">
-    <StyleGroup>
-        <File path="@static/R.style.core.LinearLayout"/>
-        <File path="@static/R.style.core.AbsoluteLayout"/>
-        <File path="@static/R.style.core.RelativeLayout"/>
-        <File path="@static/R.style.core.Button"/>
-
-        <File path="@static/R.test.style.Calculator"/>
-    </StyleGroup>
+<Manifest xmlns="M:\langs\web\luminosity\schema\Manifest.xsd">
+    <Include path="@static/R.Core"/>
 </Manifest>
