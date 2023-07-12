@@ -1,6 +1,7 @@
 import {vfs_read} from "../../vfs/vfs";
 import {R} from "../vfs";
-import {StyleSizeValue, XAMLStyle, XAMLStyleEmitter} from "./styler";
+import {style_target_of, StyleSizeValue, XAMLStyle, XAMLStyleEmitter, XAMLStyleTargets} from "./styler";
+import {XAMLState} from "./state";
 
 export type XMLElement = Element;
 export type XMLCollection = HTMLCollection;
@@ -38,7 +39,8 @@ export abstract class XAMLNode {
             }
         });
 
-        c.defaultStyle = new XAMLStyle(null);
+        c.defaultStyle = new XAMLStyle(null, false);
+        c.defaultStyle.target = XAMLStyleTargets.Element;
 
         return c;
     }
@@ -60,7 +62,7 @@ export abstract class XAMLNode {
             return;
         }
 
-        this.styler.emit(this.element, [...this.styleList, this.style]);
+        this.styler.emit(this.element, this.styleList, this.style);
     }
 
     public abstract render(): void;
@@ -285,7 +287,6 @@ export class XAML {
         return node;
     }
 
-    private static onesLoaded: boolean = false;
     private static path: XAMLTreePath = [];
 
     public static displayView(node: XAMLView): void {
@@ -297,12 +298,11 @@ export class XAML {
         }
         document.body.appendChild(node.view);
 
-        if (this.onesLoaded) {
+        if (XAMLState.isLoaded) {
             dispatchEvent(new Event("resize"));
         } else {
             window.addEventListener("load", () => {
                 dispatchEvent(new Event("resize"));
-                this.onesLoaded = true;
             });
         }
     }
@@ -389,11 +389,10 @@ export class XAML {
 
         const attrs: AttrCollection = AttrCollection.fromElement(root);
 
-        console.log(style.sheet);
-        console.log(attrs);
-        console.log(root);
         style.of = attrs.get("of");
         style.when = attrs.getOrDefault("when", "true");
+        style.target = style_target_of(attrs.getOrDefault("target", null));
+
         style.width = read_element(root, "Width", null);
         style.height = read_element(root, "Height", null);
 

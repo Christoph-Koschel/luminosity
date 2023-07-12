@@ -2,6 +2,7 @@
     "modules": {
         "luminosity": [
             "src/luminosity/builder/events.ts",
+            "src/luminosity/builder/state.ts",
             "src/luminosity/builder/styler.ts",
             "src/luminosity/builder/xaml.ts",
             "src/luminosity/loader.ts",
@@ -22,6 +23,7 @@
     },
     "loaders": {
         "luminosity": [
+            "./src/luminosity/builder/state.ts",
             "./src/luminosity/loader.ts"
         ],
         "luminosity-core": [],

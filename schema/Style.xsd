@@ -22,6 +22,19 @@
         <complexType>
             <attribute name="of" type="string" use="required"/>
             <attribute name="when" type="string"/>
+            <attribute name="target">
+                <simpleType>
+                    <restriction>
+                        <enumeration value="element"/>
+                        <enumeration value="hover"/>
+                        <enumeration value="select"/>
+                        <enumeration value="first-of-child"/>
+                        <enumeration value="last-of-child"/>
+                        <enumeration value="first-of-type"/>
+                        <enumeration value="last-of-type"/>
+                    </restriction>
+                </simpleType>
+            </attribute>
             <group ref="Properties"/>
         </complexType>
     </element>

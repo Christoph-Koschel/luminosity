@@ -8,6 +8,7 @@ builder.add_module("luminosity", [
 ])
     .dependence("vfs")
     .dependence("luminosity-core")
+    .add_loader("./src/luminosity/builder/state.ts")
     .add_loader("./src/luminosity/loader.ts")
     .use(PLUGINS.UTILS.MINIFIER);
 

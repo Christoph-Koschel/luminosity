@@ -4,4 +4,7 @@
         <Width>50px</Width>
         <Height>50px</Height>
     </Style>
+    <Style of="@static/R.core.Button" when="[...style].includes('MainButton')" target="hover">
+        <Background>rgb(120, 120, 120)</Background>
+    </Style>
 </StyleGroup>

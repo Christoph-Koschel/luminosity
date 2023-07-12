@@ -19,35 +19,30 @@ export class LinearLayout extends GridComponent {
         switch (align) {
             case "left":
                 if (this.row) {
-                    this.style.costume["justifyContent"] = "flex-start";
+                    this.style.costume["justify-content"] = "flex-start";
                 } else {
-                    this.style.costume["alignItems"] = "flex-start";
+                    this.style.costume["align-items"] = "flex-start";
                 }
                 break;
             case "center":
                 if (this.row) {
-                    try {
-                        throw "JUSTIFY CENTER";
-                    } catch (err) {
-                        console.log(">>>>", err.stack);
-                    }
-                    this.style.costume["justifyContent"] = "center";
+                    this.style.costume["justify-content"] = "center";
                 } else {
-                    this.style.costume["alignItems"] = "center";
+                    this.style.costume["align-items"] = "center";
                 }
                 break;
             case "right":
                 if (this.row) {
-                    this.style.costume["justifyContent"] = "flex-end";
+                    this.style.costume["justify-content"] = "flex-end";
                 } else {
-                    this.style.costume["alignItems"] = "flex-end";
+                    this.style.costume["align-items"] = "flex-end";
                 }
                 break;
             case "fill":
                 if (this.row) {
-                    this.style.costume["justifyContent"] = "space-evenly";
+                    this.style.costume["justify-content"] = "space-evenly";
                 } else {
-                    this.style.costume["alignItems"] = "stretch";
+                    this.style.costume["align-items"] = "stretch";
                 }
                 break;
             default:
@@ -58,19 +53,19 @@ export class LinearLayout extends GridComponent {
     private direction(direction: string): boolean {
         switch (direction) {
             case "top":
-                this.style.costume["flexDirection"] = "column-reverse";
+                this.style.costume["flex-direction"] = "column-reverse";
                 return false;
 
             case "right":
-                this.style.costume["flexDirection"] = "row";
+                this.style.costume["flex-direction"] = "row";
                 return true;
 
             case "bottom":
-                this.style.costume["flexDirection"] = "column";
+                this.style.costume["flex-direction"] = "column";
                 return false;
 
             case "left":
-                this.style.costume["flexDirection"] = "row-reverse";
+                this.style.costume["flex-direction"] = "row-reverse";
                 return true;
             default:
                 throw `Undefined direction '${direction}'`;
@@ -81,23 +76,23 @@ export class LinearLayout extends GridComponent {
         switch (align) {
             case "top":
                 if (this.row) {
-                    this.style.costume["alignItems"] = "flex-start";
+                    this.style.costume["align-items"] = "flex-start";
                 } else {
-                    this.style.costume["justifyContent"] = "flex-start";
+                    this.style.costume["justify-content"] = "flex-start";
                 }
                 break;
             case "center":
                 if (this.row) {
-                    this.style.costume["alignItems"] = "center";
+                    this.style.costume["align-items"] = "center";
                 } else {
-                    this.style.costume["justifyContent"] = "center";
+                    this.style.costume["justify-content"] = "center";
                 }
                 break;
             case "bottom":
                 if (this.row) {
-                    this.style.costume["alignItems"] = "flex-end";
+                    this.style.costume["align-items"] = "flex-end";
                 } else {
-                    this.style.costume["justifyContent"] = "flex-end";
+                    this.style.costume["justify-content"] = "flex-end";
                 }
                 break;
             default:

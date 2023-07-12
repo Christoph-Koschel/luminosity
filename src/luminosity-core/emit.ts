@@ -6,42 +6,46 @@ import {
 } from "../luminosity/builder/styler";
 
 export class CoreStyleEmitter extends XAMLStyleEmitter {
-    emitBackground(color: StyleColorValue): void {
-        this.element.style.background = color;
+    emitBackground(color: StyleColorValue): string[] {
+        return ["background: " + color];
     }
 
-    emitCostume(attrs: { [p: string]: string }): void {
+    emitCostume(attrs: { [p: string]: string }): string[] {
+        const result: string[] = [];
+
         Object.keys(attrs).forEach(key => {
-            this.element.style[key] = attrs[key];
+            result.push(`${key}: ${attrs[key]}`);
         });
+
+        return result;
     }
 
-    emitForeground(color: StyleColorValue): void {
-        this.element.style.color = color;
+    emitForeground(color: StyleColorValue): string[] {
+        return ["color: " + color];
     }
 
-    emitHeight(height: StyleBoxSizeValue): void {
+    emitHeight(height: StyleBoxSizeValue): string[] {
         if (height == "screen" || height == "match_parent") {
-            return;
+            return [];
         }
 
-        this.element.style.height = height;
+        return ["height: " + height];
     }
 
-    emitMargin(margin: StyleSizeValue[]): void {
-        this.element.style.margin = margin.join(" ");
+    emitMargin(margin: StyleSizeValue[]): string[] {
+        return ["padding: " + margin.join(" ")];
     }
 
-    emitPadding(padding: StyleSizeValue[]): void {
-        this.element.style.padding = padding.join(" ");
+    emitPadding(padding: StyleSizeValue[]): string[] {
+        return ["padding: " + padding.join(" ")];
     }
 
-    emitWidth(width: StyleBoxSizeValue): void {
+    emitWidth(width: StyleBoxSizeValue): string[] {
         if (width == "screen" || width == "match_parent") {
-            return;
+            return [];
         }
 
-        this.element.style.width = width;
+        return ["width: " + width];
     }
 }
 
